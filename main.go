@@ -109,6 +109,10 @@ func main() {
 		for _, t := range freecap4 {
 			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
 		}
+		for _, t := range freecap6 {
+			fmt.Println("Také volný je:")
+			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
+		}
 	} else if answer <= 6 && len(freecap6) == 0 {
 		fmt.Printf("Nemáme volný stůl pro tolik lidí, chceš stoly spojit?(Ano/Ne)")
 	} else if answer <= 6 {
