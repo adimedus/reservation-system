@@ -2,7 +2,7 @@ Co má program dělat?
 Jednoduše vidět stoly po zavolání, jaká data jsou volná, jak jsou velké - done
 musí umožnit spojit stoly
 následně napojit na TG
-Jednoduché UI pro bookování je cíl, tj ideálně klikačka
+Jednoduché UI pro bookování je cíl, tj ideálně klikačka (webové)
 běžně by měl ukázat 7 dní dopředu
 dále by mohl sbírat data, jak moc byl podnik využit
 
@@ -28,3 +28,10 @@ Melo by to mit osetrenou otviraci dobu
 
 umet navrhnout stoly pro 4 - done
 zacit pozivat zmenu plnosti stolu - done
+
+Nebylo by špatné mít admin rozhraní, kde by se snadno spravovala databáze stolů, popřípadě nadřazeně měnili rezervace a tak
+
+
+NICE to have: ruzné další napojení na jiné služby
+dockerizace
+exporty
