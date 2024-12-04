@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strings"
 	"time"
 )
@@ -50,7 +51,6 @@ func main() {
 	for eng, czech := range czechMonths {
 		longFormat = strings.ReplaceAll(longFormat, eng, czech)
 	}
-	fmt.Println("Datum a čas (česky):", longFormat)
 
 	tables := []table{
 		{"Velký", 6, true, time.Time{}},
@@ -61,8 +61,6 @@ func main() {
 		{"Neon", 2, false, time.Now().Add(2 * time.Hour)},
 		{"Záchod", 2, true, time.Time{}},
 	}
-
-	fmt.Println("List of tables:")
 
 	freefortwo := 2
 	freeforfour := 4
@@ -110,7 +108,7 @@ func main() {
 			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
 		}
 		for _, t := range freecap6 {
-			fmt.Println("Také volný je:")
+			fmt.Fprintln(os.Stdout, []any{`Také volný je:`}...)
 			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
 		}
 	} else if answer <= 6 && len(freecap6) == 0 {

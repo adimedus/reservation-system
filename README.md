@@ -31,6 +31,7 @@ zacit pozivat zmenu plnosti stolu - done
 
 Nebylo by špatné mít admin rozhraní, kde by se snadno spravovala databáze stolů, popřípadě nadřazeně měnili rezervace a tak
 
+Prvně tedy udělám nějaké stránky pomoci hugo - snadno a rychle a hlavně rychlé
 
 NICE to have: ruzné další napojení na jiné služby
 dockerizace
