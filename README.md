@@ -33,6 +33,8 @@ Nebylo by špatné mít admin rozhraní, kde by se snadno spravovala databáze s
 
 Prvně tedy udělám nějaké stránky pomoci hugo - snadno a rychle a hlavně rychlé
 
+Stoly je třeba uložit mimo hlavní program - zkusím si nastavit json, ale rád bych aby program byl škalovatelný, tak asi použiju sqlite
+
 NICE to have: ruzné další napojení na jiné služby
 dockerizace
 exporty

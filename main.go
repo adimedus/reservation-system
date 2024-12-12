@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	//	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -31,6 +32,9 @@ func filter(data []table, f func(table) bool) []table {
 }
 
 func main() {
+
+	//http.HandleFunc("/", handler)
+	//http.ListenAndServe(":8080", nil)
 
 	now := time.Now()
 	czechMonths := map[string]string{
@@ -153,3 +157,11 @@ func formatCzechDate(t time.Time, czechMonths map[string]string) string {
 	}
 	return englishFormat
 }
+
+//func handler(w http.ResponseWriter, r *http.Request) {
+
+//fmt.Fprintf(w, "Otevřeno je od 13:00 do 0:00 pondělí až čtvrtek, pátek a sobota od 13:00 do 1:00, neděle pak 15:00 až 23:00\n")
+
+//fmt.Fprintf(w, "Pro kolik lidí chceš rezervovat stůl?\n")
+
+//}
