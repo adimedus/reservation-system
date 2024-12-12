@@ -3,7 +3,7 @@
     {"name": "Dveře","capacity": 2,"free": true,"fulluntil": ""},
     {"name":"Okno","capacity": 2,"free": true,"fulluntil":"" },
     {"name": "Čtyřka okno","capacity": 4,"free": true,"fulluntil": ""},
-    {"name": "Obraz","capacity": 4,"free": true,"fulluntil": "2024-12-12T23:35:00Z"},
+    {"name": "Obraz","capacity": 4,"free": true,"fulluntil": ""},
     {"name": "Neon","capacity": 2,"free": false, "fulluntil": ""},
     {"name": "Záchod","capacity": 2,"free": true, "fulluntil": ""}
 ]
