@@ -1,40 +1,21 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	//	"net/http"
 	"os"
 	"strings"
 	"time"
 )
 
 type table struct {
-	name      string
-	capacity  int
-	free      bool
-	fulluntil time.Time
-}
-
-func filter(data []table, f func(table) bool) []table {
-
-	fltd := make([]table, 0)
-	free := true
-
-	for _, table := range data {
-		if table.free == free {
-			if f(table) {
-				fltd = append(fltd, table)
-			}
-		}
-	}
-
-	return fltd
+	Name      string    `json:"name"`
+	Capacity  int       `json:"capacity"`
+	Free      bool      `json:"free"`
+	Fulluntil time.Time `json:"fulluntil"`
 }
 
 func main() {
-
-	//http.HandleFunc("/", handler)
-	//http.ListenAndServe(":8080", nil)
 
 	now := time.Now()
 	czechMonths := map[string]string{
@@ -56,94 +37,80 @@ func main() {
 		longFormat = strings.ReplaceAll(longFormat, eng, czech)
 	}
 
-	tables := []table{
-		{"Velký", 6, true, time.Time{}},
-		{"Dveře", 2, true, time.Time{}},
-		{"Okno", 2, true, time.Time{}},
-		{"Čtyřka okno", 4, true, time.Time{}},
-		{"Obraz", 4, true, time.Time{}},
-		{"Neon", 2, false, time.Now().Add(2 * time.Hour)},
-		{"Záchod", 2, true, time.Time{}},
+	// přečtění JSON dat
+	file, err := os.ReadFile("tables.json")
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
 	}
 
-	freefortwo := 2
-	freeforfour := 4
-	freeforsix := 6
-
-	freecap2 := filter(tables, func(i table) bool {
-		return i.capacity == freefortwo
-	})
-	freecap4 := filter(tables, func(i table) bool {
-		return i.capacity == freeforfour
-	})
-	freecap6 := filter(tables, func(i table) bool {
-		return i.capacity == freeforsix
-	})
-
+	// Parsování JSON
+	var rawTables []map[string]interface{}
+	if err := json.Unmarshal(file, &rawTables); err != nil {
+		fmt.Println("Error parsing JSON:", err)
+		return
+	}
+	// prevedeni na struct
+	var tables []table
+	for _, rawTable := range rawTables {
+		fulluntilStr, _ := rawTable["fulluntil"].(string)
+		fulluntil, err := time.Parse(time.RFC3339, fulluntilStr)
+		if err != nil {
+			// Handle invalid or missing `fulluntil` by setting it to zero time
+			fulluntil = time.Time{}
+		}
+		tables = append(tables, table{
+			Name:      rawTable["name"].(string),
+			Capacity:  int(rawTable["capacity"].(float64)), // JSON numbers are float64
+			Free:      rawTable["free"].(bool),
+			Fulluntil: fulluntil,
+		})
+	}
 	println("Otevřeno je od 13:00 do 0:00 pondělí až čtvrtek, pátek a sobota od 13:00 do 1:00, neděle pak 15:00 až 23:00")
 
 	println("Pro kolik lidí chceš rezervovat stůl?")
 
 	var answer int
-	var whattable string = "Velký"
+	var whattable string
 	fmt.Scanf("%d\n", &answer)
 
-	if answer <= 2 && len(freecap2) == 0 {
-		fmt.Println("Pro dva stůl není, co takhle větší stůl: ")
-		for _, t := range freecap4 {
-			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
+	// Napiš rezervované stoly
+	for _, t := range tables {
+		if !t.Free {
+			if !t.Fulluntil.IsZero() {
+				fmt.Printf("Table %s reserved until %s\n", t.Name, formatCzechDate(t.Fulluntil, czechMonths))
+			} else {
+				fmt.Printf("Table %s is reserved, but reservation time is unknown.\n", t.Name)
+			}
 		}
-		for _, t := range freecap6 {
-			fmt.Printf("Jméno: %s, Kapacita: %d lidí\n", t.name, t.capacity)
+	}
+	// Napiš volné stoly s vhodnou kapacitou
+	fmt.Printf("Tyto stoly jsou volné:\n")
+	for _, t := range tables {
+		if t.Capacity >= answer || !t.Free {
+			fmt.Printf("Stůl %s s kapacitou pro %d.\n", t.Name, t.Capacity)
+		} else {
+			fmt.Printf("Nejsou volné stoly.")
 		}
-	} else if answer <= 2 {
-		fmt.Println("Volné stoly jsou:")
-		for _, t := range freecap2 {
-			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
-		}
-	} else if answer <= 4 && len(freecap4) == 0 {
-		fmt.Println("Nemáme stůl pro čtyři volný, máme ale volný:")
-		for _, t := range freecap6 {
-			fmt.Printf("Jméno: %s, Kapacita: %d lidí\n", t.name, t.capacity)
-		}
-	} else if answer <= 4 {
-		fmt.Println("Volné stoly jsou:")
-		for _, t := range freecap4 {
-			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
-		}
-		for _, t := range freecap6 {
-			fmt.Fprintln(os.Stdout, []any{`Také volný je:`}...)
-			fmt.Printf("Jméno: %s, Kapacita: %d lidi\n", t.name, t.capacity)
-		}
-	} else if answer <= 6 && len(freecap6) == 0 {
-		fmt.Printf("Nemáme volný stůl pro tolik lidí, chceš stoly spojit?(Ano/Ne)")
-	} else if answer <= 6 {
-		fmt.Println("Volný je:")
-		for _, t := range freecap6 {
-			fmt.Printf("Jméno: %s, Kapacita: %d lidí\n", t.name, t.capacity)
-		}
-	} else {
-		fmt.Println("Nemáme tak velký stůl, chceš spojit stoly?(Ano/Ne)")
-
 	}
 
 	fmt.Println("Zadej jméno stolu, co chceš rezervovat: ")
 	fmt.Scanf("%s", &whattable)
 	for t := range tables {
-		if tables[t].name == whattable {
-			tables[t].free = false
-			tables[t].fulluntil = time.Now().Add(3 * time.Hour)
-			fmt.Printf("Zarezervovaný stůl do: Jméno: %s, Kapacita: %d, Volný: %s\n", tables[t].name, tables[t].capacity, formatCzechDate(tables[t].fulluntil, czechMonths))
+		if tables[t].Name == whattable {
+			tables[t].Free = false
+			tables[t].Fulluntil = time.Now().Add(3 * time.Hour)
+			fmt.Printf("Zarezervovaný stůl do: Jméno: %s, Kapacita: %d, Volný: %s\n", tables[t].Name, tables[t].Capacity, formatCzechDate(tables[t].Fulluntil, czechMonths))
 			break
 		}
 	}
 	for _, t := range tables {
-		if !t.free {
-			if time.Now().After(t.fulluntil) {
-				fmt.Printf("Stůl %s už není rezervovaný.\n", t.name)
-				t.free = true
+		if !t.Free {
+			if time.Now().After(t.Fulluntil) {
+				fmt.Printf("Stůl %s už není rezervovaný.\n", t.Name)
+				t.Free = true
 			} else {
-				fmt.Printf("Stůl %s je rezervovaný %s\n", t.name, formatCzechDate(t.fulluntil, czechMonths))
+				fmt.Printf("Stůl %s je rezervovaný %s\n", t.Name, formatCzechDate(t.Fulluntil, czechMonths))
 			}
 		}
 	}
@@ -157,11 +124,3 @@ func formatCzechDate(t time.Time, czechMonths map[string]string) string {
 	}
 	return englishFormat
 }
-
-//func handler(w http.ResponseWriter, r *http.Request) {
-
-//fmt.Fprintf(w, "Otevřeno je od 13:00 do 0:00 pondělí až čtvrtek, pátek a sobota od 13:00 do 1:00, neděle pak 15:00 až 23:00\n")
-
-//fmt.Fprintf(w, "Pro kolik lidí chceš rezervovat stůl?\n")
-
-//}
