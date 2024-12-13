@@ -87,10 +87,8 @@ func main() {
 	// Napiš volné stoly s vhodnou kapacitou
 	fmt.Printf("Tyto stoly jsou volné:\n")
 	for _, t := range tables {
-		if t.Capacity >= answer || !t.Free {
+		if t.Capacity >= answer && t.Free {
 			fmt.Printf("Stůl %s s kapacitou pro %d.\n", t.Name, t.Capacity)
-		} else {
-			fmt.Printf("Nejsou volné stoly.")
 		}
 	}
 
@@ -113,6 +111,17 @@ func main() {
 				fmt.Printf("Stůl %s je rezervovaný %s\n", t.Name, formatCzechDate(t.Fulluntil, czechMonths))
 			}
 		}
+	}
+
+	updatedJSON, err := json.MarshalIndent(tables, "", "  ")
+	if err != nil {
+		fmt.Println("Error generating JSON:", err)
+		return
+	}
+
+	if err := os.WriteFile("tables.json", updatedJSON, 0644); err != nil {
+		fmt.Println("Error writing to file:", err)
+		return
 	}
 
 }
