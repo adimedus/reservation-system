@@ -56,12 +56,11 @@ func main() {
 		fulluntilStr, _ := rawTable["fulluntil"].(string)
 		fulluntil, err := time.Parse(time.RFC3339, fulluntilStr)
 		if err != nil {
-			// Handle invalid or missing `fulluntil` by setting it to zero time
 			fulluntil = time.Time{}
 		}
 		tables = append(tables, table{
 			Name:      rawTable["name"].(string),
-			Capacity:  int(rawTable["capacity"].(float64)), // JSON numbers are float64
+			Capacity:  int(rawTable["capacity"].(float64)),
 			Free:      rawTable["free"].(bool),
 			Fulluntil: fulluntil,
 		})
