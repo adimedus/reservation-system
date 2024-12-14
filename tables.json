@@ -32,8 +32,8 @@
   {
     "name": "Neon",
     "capacity": 2,
-    "free": true,
-    "fulluntil": "0001-01-01T00:00:00Z"
+    "free": false,
+    "fulluntil": "2024-12-14T04:05:57.435139666+01:00"
   },
   {
     "name": "Záchod",

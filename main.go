@@ -67,22 +67,23 @@ func main() {
 	}
 	println("Otevřeno je od 13:00 do 0:00 pondělí až čtvrtek, pátek a sobota od 13:00 do 1:00, neděle pak 15:00 až 23:00")
 
+	// Napiš rezervované stoly
+	for _, t := range tables {
+		if !t.Free {
+			if !t.Fulluntil.IsZero() {
+				fmt.Printf("Stůl %s je rezervovaný %s\n", t.Name, formatCzechDate(t.Fulluntil, czechMonths))
+			} else {
+				fmt.Printf("Stůl %s je rezervovaný, ale čas je neznámý.\n", t.Name)
+			}
+		}
+	}
+
 	println("Pro kolik lidí chceš rezervovat stůl?")
 
 	var answer int
 	var whattable string
 	fmt.Scanf("%d\n", &answer)
 
-	// Napiš rezervované stoly
-	for _, t := range tables {
-		if !t.Free {
-			if !t.Fulluntil.IsZero() {
-				fmt.Printf("Table %s reserved until %s\n", t.Name, formatCzechDate(t.Fulluntil, czechMonths))
-			} else {
-				fmt.Printf("Table %s is reserved, but reservation time is unknown.\n", t.Name)
-			}
-		}
-	}
 	// Napiš volné stoly s vhodnou kapacitou
 	fmt.Printf("Tyto stoly jsou volné:\n")
 	for _, t := range tables {
@@ -114,12 +115,12 @@ func main() {
 
 	updatedJSON, err := json.MarshalIndent(tables, "", "  ")
 	if err != nil {
-		fmt.Println("Error generating JSON:", err)
+		fmt.Println("Error generování JSONu:", err)
 		return
 	}
 
 	if err := os.WriteFile("tables.json", updatedJSON, 0644); err != nil {
-		fmt.Println("Error writing to file:", err)
+		fmt.Println("Error zapisování do JSONu:", err)
 		return
 	}
 
