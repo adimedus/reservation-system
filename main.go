@@ -19,18 +19,9 @@ func main() {
 
 	now := time.Now()
 	czechMonths := map[string]string{
-		"January":   "ledna",
-		"February":  "února",
-		"March":     "března",
-		"April":     "dubna",
-		"May":       "května",
-		"June":      "června",
-		"July":      "července",
-		"August":    "srpna",
-		"September": "září",
-		"October":   "října",
-		"November":  "listopadu",
-		"December":  "prosince",
+		"January": "ledna", "February": "února", "March": "března", "April": "dubna",
+		"May": "května", "June": "června", "July": "července", "August": "srpna",
+		"September": "září", "October": "října", "November": "listopadu", "December": "prosince",
 	}
 	longFormat := now.Format("2. January 2006 15:04:05")
 	for eng, czech := range czechMonths {

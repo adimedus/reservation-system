@@ -8,8 +8,8 @@
   {
     "name": "Dveře",
     "capacity": 2,
-    "free": true,
-    "fulluntil": "0001-01-01T00:00:00Z"
+    "free": false,
+    "fulluntil": "2024-12-14T04:18:08.156119519+01:00"
   },
   {
     "name": "Okno",
