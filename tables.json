@@ -1,44 +1,44 @@
 [
   {
-    "name": "Velký",
+    "name": "velký",
     "capacity": 6,
-    "free": false,
-    "fulluntil": "2024-12-14T03:54:28.852501506+01:00"
+    "free": true,
+    "fulluntil": "0001-01-01T00:00:00Z"
   },
   {
-    "name": "Dveře",
+    "name": "dveře",
     "capacity": 2,
-    "free": false,
-    "fulluntil": "2024-12-14T04:18:08.156119519+01:00"
+    "free": true,
+    "fulluntil": "0001-01-01T00:00:00Z"
   },
   {
-    "name": "Okno",
+    "name": "okno",
     "capacity": 2,
-    "free": false,
-    "fulluntil": "2024-12-14T03:58:03.312174705+01:00"
+    "free": true,
+    "fulluntil": "0001-01-01T00:00:00Z"
   },
   {
-    "name": "Čtyřka okno",
+    "name": "čtyřka okno",
     "capacity": 4,
     "free": true,
     "fulluntil": "0001-01-01T00:00:00Z"
   },
   {
-    "name": "Obraz",
+    "name": "obraz",
     "capacity": 4,
-    "free": false,
-    "fulluntil": "2024-12-14T03:55:47.662501573+01:00"
+    "free": true,
+    "fulluntil": "0001-01-01T00:00:00Z"
   },
   {
-    "name": "Neon",
+    "name": "neon",
     "capacity": 2,
     "free": false,
-    "fulluntil": "2024-12-14T04:05:57.435139666+01:00"
+    "fulluntil": "2024-12-14T04:34:22.968776231+01:00"
   },
   {
-    "name": "Záchod",
+    "name": "záchod",
     "capacity": 2,
-    "free": false,
-    "fulluntil": "2024-12-14T03:55:20.928173682+01:00"
+    "free": true,
+    "fulluntil": "0001-01-01T00:00:00Z"
   }
 ]

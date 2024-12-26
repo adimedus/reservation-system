@@ -6,6 +6,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type table struct {
@@ -13,6 +16,14 @@ type table struct {
 	Capacity  int       `json:"capacity"`
 	Free      bool      `json:"free"`
 	Fulluntil time.Time `json:"fulluntil"`
+}
+
+func resetAllReservations(tables []table) {
+	for i := range tables {
+		tables[i].Free = true
+		tables[i].Fulluntil = time.Time{} // Reset to zero time
+	}
+	fmt.Println("Všechny rezervace byly zrušeny.")
 }
 
 func main() {
@@ -75,7 +86,7 @@ func main() {
 	var whattable string
 	fmt.Scanf("%d\n", &answer)
 
-	// Napiš volné stoly s vhodnou kapacitou
+	// Napiš volné stoly s dostatečnou kapacitou
 	fmt.Printf("Tyto stoly jsou volné:\n")
 	for _, t := range tables {
 		if t.Capacity >= answer && t.Free {
@@ -84,7 +95,8 @@ func main() {
 	}
 
 	fmt.Println("Zadej jméno stolu, co chceš rezervovat: ")
-	fmt.Scanf("%s", &whattable)
+	fmt.Scan(&whattable)
+	fmt.Println(cases.Title(language.Und).String(whattable))
 	for t := range tables {
 		if tables[t].Name == whattable {
 			tables[t].Free = false
@@ -113,6 +125,20 @@ func main() {
 	if err := os.WriteFile("tables.json", updatedJSON, 0644); err != nil {
 		fmt.Println("Error zapisování do JSONu:", err)
 		return
+	}
+
+	var volba string
+	fmt.Println("Chcete zrušit všechny rezervace? (Ano/Ne)")
+	fmt.Scan(&volba)
+
+	if strings.ToLower(volba) == "ano" {
+		resetAllReservations(tables)
+
+		data, _ := json.MarshalIndent(tables, "", "  ")
+		os.WriteFile("tables.json", data, 0644)
+		fmt.Println("Stoly byly aktualizovány v souboru.")
+	} else {
+		fmt.Println("Rezervace nebyly zrušeny.")
 	}
 
 }
