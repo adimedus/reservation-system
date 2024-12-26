@@ -6,9 +6,6 @@ import (
 	"os"
 	"strings"
 	"time"
-
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 type table struct {
@@ -96,7 +93,7 @@ func main() {
 
 	fmt.Println("Zadej jméno stolu, co chceš rezervovat: ")
 	fmt.Scan(&whattable)
-	fmt.Println(cases.Title(language.Und).String(whattable))
+
 	for t := range tables {
 		if tables[t].Name == whattable {
 			tables[t].Free = false
