@@ -49,6 +49,7 @@ func main() {
 		fmt.Println("Error parsing JSON:", err)
 		return
 	}
+
 	// prevedeni na struct
 	var tables []table
 	for _, rawTable := range rawTables {
@@ -87,17 +88,38 @@ func main() {
 	fmt.Printf("Tyto stoly jsou volné:\n")
 	for _, t := range tables {
 		if t.Capacity >= answer && t.Free {
-			fmt.Printf("Stůl %s s kapacitou pro %d.\n", t.Name, t.Capacity)
+			fmt.Printf("Stůl %s s kapacitou pro %d.\n", strings.ToUpper(t.Name), t.Capacity)
 		}
 	}
 
 	fmt.Println("Zadej jméno stolu, co chceš rezervovat: ")
 	fmt.Scan(&whattable)
 
+	lowertable := strings.ToLower(whattable)
+	if len(lowertable) == 0 {
+		return
+	}
+	firstLetter := string(lowertable[0])
+	upperFirst := strings.ToUpper(firstLetter) + lowertable[1:]
+	fmt.Println(upperFirst)
+
+	var zmenacasu string
+	fmt.Println("Chceš rezervovat stůl na 3 hodiny? (Ano/Ne)")
+	fmt.Scan(&zmenacasu)
+	var addtime int
+	if strings.ToLower(zmenacasu) == "ne" {
+		fmt.Println("Na jak dlouhý čas budeš udělat rezervaci?")
+		fmt.Scan(&addtime)
+		fmt.Printf("Rezervace bude na %d hodiny\n", addtime)
+	} else {
+		addtime = 3
+		fmt.Println("Rezervace bude na tři hodiny.")
+	}
+
 	for t := range tables {
-		if tables[t].Name == whattable {
+		if tables[t].Name == lowertable {
 			tables[t].Free = false
-			tables[t].Fulluntil = time.Now().Add(3 * time.Hour)
+			tables[t].Fulluntil = time.Now().Add(time.Duration(addtime) * time.Hour)
 			fmt.Printf("Zarezervovaný stůl do: Jméno: %s, Kapacita: %d, Volný: %s\n", tables[t].Name, tables[t].Capacity, formatCzechDate(tables[t].Fulluntil, czechMonths))
 			break
 		}
