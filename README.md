@@ -14,9 +14,7 @@ Mimo to bude dělat i webové UI pro obě možnosti
 Co to nemá dělat - obtižnější práci - tj není nutné psát přesný počet lidí
 Může to dělat grafy jak které hodiny je podnik obsazen
 
-Stoly můžou mít označení jménem - done
 
-Tj momentální stoly - neon, u záchodu, 4ka obraz, 4k okno, dvojka okno, dvojka vchod, velky stul - done
 Muze to vygenerovat mapku stolu - zelene a cervene dle obsazenosti
 
 Prvni fáze
@@ -24,16 +22,15 @@ Udelat tui - kde napisu rezervace pocet lidi a navrhne mi to mozne volby - cca s
 Nasledne rozchodit hodiny - semi done
 
 Melo by to mit osetrenou otviraci dobu
+Momentálně se přesouvám k mongodb místo jsonu
 
-
-umet navrhnout stoly pro 4 - done
-zacit pozivat zmenu plnosti stolu - done
+Mělo by to umět udělat first setup - to je teď je vše o manuální přidání věcí, to bude asi udělané v admin prostředí co se týče jmén a kapacit, ale bude potřeba určitě udělat setup, který udělá inicialní nastavení - to je běžím tady, stáhnout docker a nastavit - možná to celé dát do docker compose? 
 
 Nebylo by špatné mít admin rozhraní, kde by se snadno spravovala databáze stolů, popřípadě nadřazeně měnili rezervace a tak
 
 Prvně tedy udělám nějaké stránky pomoci hugo - snadno a rychle a hlavně rychlé
 
-Stoly je třeba uložit mimo hlavní program - zkusím si nastavit json, ale rád bych aby program byl škalovatelný, tak asi použiju sqlite
+mongodb funguje skrze docker
 
 NICE to have: ruzné další napojení na jiné služby
 dockerizace
