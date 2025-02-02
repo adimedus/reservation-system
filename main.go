@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 	"time"
 )
@@ -66,6 +67,11 @@ func main() {
 		})
 	}
 	println("Otevřeno je od 13:00 do 0:00 pondělí až čtvrtek, pátek a sobota od 13:00 do 1:00, neděle pak 15:00 až 23:00")
+
+	// test
+	sort.Slice(tables, func(i, j int) bool {
+		return tables[i].Capacity < tables[j].Capacity
+	})
 
 	// Napiš rezervované stoly
 	for _, t := range tables {

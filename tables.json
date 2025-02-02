@@ -1,11 +1,5 @@
 [
   {
-    "name": "velký",
-    "capacity": 6,
-    "free": true,
-    "fulluntil": "0001-01-01T00:00:00Z"
-  },
-  {
     "name": "dveře",
     "capacity": 2,
     "free": true,
@@ -13,6 +7,18 @@
   },
   {
     "name": "okno",
+    "capacity": 2,
+    "free": true,
+    "fulluntil": "0001-01-01T00:00:00Z"
+  },
+  {
+    "name": "neon",
+    "capacity": 2,
+    "free": true,
+    "fulluntil": "0001-01-01T00:00:00Z"
+  },
+  {
+    "name": "záchod",
     "capacity": 2,
     "free": true,
     "fulluntil": "0001-01-01T00:00:00Z"
@@ -30,14 +36,8 @@
     "fulluntil": "0001-01-01T00:00:00Z"
   },
   {
-    "name": "neon",
-    "capacity": 2,
-    "free": true,
-    "fulluntil": "0001-01-01T00:00:00Z"
-  },
-  {
-    "name": "záchod",
-    "capacity": 2,
+    "name": "velký",
+    "capacity": 6,
     "free": true,
     "fulluntil": "0001-01-01T00:00:00Z"
   }
