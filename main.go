@@ -1,13 +1,36 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"sort"
 	"strings"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+func connectToMongoDB(uri string) (*mongo.Client, error) {
+	clientOptions := options.Client().ApplyURI(uri)
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		return nil, err
+	}
+
+	// Ping the database to verify the connection
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println("Connected to MongoDB!")
+	return client, nil
+}
 
 type table struct {
 	Name      string    `json:"name"`
@@ -36,6 +59,36 @@ func main() {
 	for eng, czech := range czechMonths {
 		longFormat = strings.ReplaceAll(longFormat, eng, czech)
 	}
+
+	// MongoDB connection URI
+	uri := "mongodb://localhost:27017"
+
+	// Connect to MongoDB
+	client, err := connectToMongoDB(uri)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer client.Disconnect(context.TODO())
+
+	// Define a document to insert
+	document := bson.M{"name": "Alice", "age": 25, "email": "alice@example.com"}
+
+	// Insert the document
+	collection := client.Database("testdb").Collection("users")
+	_, err = collection.InsertOne(context.TODO(), document)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Document inserted!")
+
+	// Query the document
+	filter := bson.M{"name": "Alice"}
+	var result bson.M
+	err = collection.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Query result:", result)
 
 	// přečtění JSON dat
 	file, err := os.ReadFile("tables.json")
