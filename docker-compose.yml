@@ -1,0 +1,33 @@
+version: '3.1'
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: reservation
+    # Expose 27017 on localhost
+    ports:
+      - "27017:27017"
+    networks:
+      - reservation-net
+    volumes:
+      - ./data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:reservation@mongodb:27017/reservationdb?authSource=admin
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_BASICAUTH: 'true'
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: reservation
+    networks:
+      - reservation-net
+
+networks:
+  reservation-net:

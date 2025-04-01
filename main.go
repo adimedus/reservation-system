@@ -61,7 +61,7 @@ func main() {
 	}
 
 	// MongoDB connection URI
-	uri := "mongodb://localhost:27017"
+	uri := "mongodb://root:reservation@localhost:27017"
 
 	// Connect to MongoDB
 	client, err := connectToMongoDB(uri)
@@ -71,7 +71,7 @@ func main() {
 	defer client.Disconnect(context.TODO())
 
 	// Define a document to insert
-	document := bson.M{"name": "Alice", "age": 25, "email": "alice@example.com"}
+	document := bson.M{"table": "okno", "capacita": 2, "free": "yes"}
 
 	// Insert the document
 	collection := client.Database("testdb").Collection("users")
@@ -82,7 +82,7 @@ func main() {
 	fmt.Println("Document inserted!")
 
 	// Query the document
-	filter := bson.M{"name": "Alice"}
+	filter := bson.M{"name": "okno"}
 	var result bson.M
 	err = collection.FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
