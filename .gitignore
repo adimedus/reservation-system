@@ -1,2 +1,6 @@
 #ignore all data in data/
 data/
+
+__debug*
+
+.gitignore
